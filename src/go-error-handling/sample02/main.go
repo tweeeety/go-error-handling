@@ -9,10 +9,10 @@ func doSomething() error {
 	return errors.New("doSomething is error.")
 }
 
-// nilと比較してerrorオブジェクトが返ってたらエラーと見なす
 func doHoge() {
 	err := doSomething()
 
+	// nilと比較してerrorオブジェクトが返ってたらエラーと見なす
 	if err != nil {
 		fmt.Println("doHoge is failed")
 		return
@@ -22,9 +22,9 @@ func doHoge() {
 	fmt.Println("doHoge is success")
 }
 
-//
 func doFuga() {
 
+	// _ でerrorを無視する
 	_ = doSomething()
 
 	// 処理を続ける
@@ -32,6 +32,7 @@ func doFuga() {
 }
 
 func doPiyo() {
+	// 単に受け取らないことも
 	doSomething()
 
 	// 処理を続ける
