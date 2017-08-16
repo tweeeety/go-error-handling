@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"os"
-)
+import "fmt"
 
 const (
 	ERROR_MSG_01 = "doSomething is error. b is true"
@@ -16,12 +13,12 @@ type MyError struct {
 }
 
 func (err *MyError) Error() string {
-	return fmt.Sprintf("ERROR: %d %s", err.Code, err.Msg)
+	return fmt.Sprintf("%s, %d", err.Msg, err.Code)
 }
 
 var (
-	MyError_01 = &MyError{Msg: "this is MyError_001", Code: 30001}
-	MyError_02 = &MyError{Msg: "this is MyError_002", Code: 30002}
+	MyError_01 = &MyError{Msg: "MyError_001 is occur", Code: 30001}
+	MyError_02 = &MyError{Msg: "MyError_002 is occur", Code: 30002}
 )
 
 func doSomething(b bool) error {
@@ -40,13 +37,19 @@ func main() {
 
 	err := doSomething(false)
 
-	if err == MyError_01 {
-		fmt.Println("ERROR: インスタンスMyError_01に応じた処理を行う")
-		os.Exit(1)
+	switch err {
+	case MyError_01:
+		fmt.Println("ERROR: インスタンスMyError_01に応じた処理")
+		fmt.Printf("ERROR: %+v\n", err)
 
-	} else if err == MyError_02 {
-		fmt.Println("ERROR: インスタンスMyError_02に応じた処理を行う")
-		os.Exit(1)
+	case MyError_02:
+		fmt.Println("ERROR: インスタンスMyError_02に応じた処理")
+		fmt.Printf("ERROR: %+v\n", err)
+
+		// ちなみにdoSomethingの返り値は
+		// errorインターフェースであってMyError_01ではない。
+		// ココに以下のようなコードは書けない
+		//fmt.Printf("ERROR: Msg=%s, Code=%d", err.Msg, err.Code)
 	}
 	fmt.Println("main is success")
 }
